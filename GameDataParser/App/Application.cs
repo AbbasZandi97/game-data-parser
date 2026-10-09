@@ -1,53 +1,67 @@
-﻿using GameDataParser.UserInteraction;
+﻿using GameDataParser.Deserializer;
+using GameDataParser.Log;
+using GameDataParser.Model;
+using GameDataParser.UserInteraction;
+using System.Text.Json;
 
 namespace GameDataParser.App
 {
     public class Application
     {
+        //private readonly Dictionary<string, VideoGame> _videoGames;
+        private readonly IDeserializer _deserializer;
+
+        private readonly VideoGameCollection _collection;
+
+        private readonly IErrorLogger _logger;
+
+        private readonly IUserInteraction _userInteraction;
+        public Application(IDeserializer deserializer,
+                           VideoGameCollection collection,
+                           IErrorLogger logger,
+                           IUserInteraction userInteraction)
+        {
+            _deserializer = deserializer;
+            _collection = collection;
+            _logger = logger;
+            _userInteraction = userInteraction;
+        }  
+        
         public void StartApp()
         {
-            if (GetFileName(out string fileName))
+
+            string fileContent = "";
+            try
             {
-                Console.WriteLine("name entered successfully !!");
-                Console.WriteLine($"file name: {fileName}");
+                if (_userInteraction.GetFileName(out string path))
+                {
+                    fileContent = File.ReadAllText(path);
+                    _collection.AddUniqueGames(_deserializer.DeserializeGames(fileContent));
+                    _userInteraction.PrintVideoGames(_collection.Games);
+                }
             }
-            else
+            catch(JsonException je)
             {
-                ConsoleUserInteraction.PrintPressKeyToCloseApp();
+                Console.WriteLine(je.Message);
+                Console.WriteLine(fileContent);
+                _userInteraction.PrintErrorHappened();
             }
+            catch (InvalidDataException ide)
+            {
+                Console.WriteLine(ide.Message);
+                _userInteraction.PrintErrorHappened();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                _logger.Log(ex);
+                _userInteraction.PrintErrorHappened();
+            }
+
+            _userInteraction.PrintPressKeyToCloseApp();
 
         }
 
-        private bool GetFileName(out string userInput)
-        {
 
-            userInput = "";
-
-            ConsoleUserInteraction.PrintEnterInput();
-            string fileName = ConsoleUserInteraction.GetFileName();
-
-            if (fileName == "")
-            {
-                ConsoleUserInteraction.PrintEmptyInput();
-                return false;
-            }   
-            
-            if (fileName is null)
-            {
-                ConsoleUserInteraction.PrintNullInput();
-                return false;
-            }   
-            
-            if (!File.Exists(fileName))
-            {
-                ConsoleUserInteraction.PrintFileNotFound();
-                return false;
-            }
-
-            userInput = fileName;
-            return true;
-
-            
-        }
     }
 }
