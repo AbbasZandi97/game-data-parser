@@ -5,7 +5,7 @@ namespace GameDataParser.Deserializer
 {
     public class JsonDeserializer : IDeserializer
     {
-        public List<VideoGame> DeserializeGames(string json)
+        public IEnumerable<VideoGame> DeserializeGames(string json)
         {
 
             return JsonSerializer.Deserialize<List<VideoGame>>(json);
