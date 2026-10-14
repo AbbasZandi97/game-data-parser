@@ -1,12 +1,15 @@
 ﻿using GameDataParser.Model;
 
-namespace GameDataParser.UserInteraction
+namespace GameDataParser.UserInteraction;
+
+public interface IUserInteraction
 {
-    public interface IUserInteraction
-    {
-        bool GetFileName(out string userInput);
-        void PrintPressKeyToCloseApp();
-        void PrintVideoGames(IEnumerable<VideoGame> games);
-        void PrintErrorHappened();
-    }
+    bool GetFileName(out string userInput);
+    void PrintPressKeyToCloseApp();
+    void PrintVideoGames(IEnumerable<VideoGame> games);
+    void PrintErrorHappened();
+
+    void PrintErrorMessage(Exception ex);
+
+    void PrintSourceFileContent(string fileContent);
 }
