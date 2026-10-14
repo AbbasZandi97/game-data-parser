@@ -56,4 +56,13 @@ public class ConsoleUserInteraction : IUserInteraction
         Console.WriteLine("Sorry! The application has experienced an unexpected error" +
             " and will have to be  closed.");
 
+    public void PrintErrorMessage(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
+    public void PrintSourceFileContent(string fileContent)
+    {
+        Console.WriteLine(fileContent);
+    }
 }
