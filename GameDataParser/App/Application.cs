@@ -8,7 +8,6 @@ namespace GameDataParser.App
 {
     public class Application
     {
-        //private readonly Dictionary<string, VideoGame> _videoGames;
         private readonly IDeserializer _deserializer;
 
         private readonly VideoGameCollection _collection;
