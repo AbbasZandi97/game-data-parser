@@ -4,6 +4,6 @@ namespace GameDataParser.Deserializer
 {
     public interface IDeserializer
     {
-        List<VideoGame> DeserializeGames(string path);
+        IEnumerable<VideoGame> DeserializeGames(string path);
     }
 }
