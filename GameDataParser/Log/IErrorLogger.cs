@@ -1,7 +1,6 @@
-﻿namespace GameDataParser.Log
+﻿namespace GameDataParser.Log;
+
+public interface IErrorLogger
 {
-    public interface IErrorLogger
-    {
-        void Log(Exception ex);
-    }
+    void Log(Exception ex);
 }

@@ -1,9 +1,8 @@
 ﻿using GameDataParser.Model;
 
-namespace GameDataParser.Deserializer
+namespace GameDataParser.Deserializer;
+
+public interface IDeserializer
 {
-    public interface IDeserializer
-    {
-        IEnumerable<VideoGame> DeserializeGames(string path);
-    }
+    IEnumerable<VideoGame> DeserializeGames(string path);
 }

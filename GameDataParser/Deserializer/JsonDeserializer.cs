@@ -1,15 +1,14 @@
 ﻿using GameDataParser.Model;
 using System.Text.Json;
 
-namespace GameDataParser.Deserializer
+namespace GameDataParser.Deserializer;
+
+public class JsonDeserializer : IDeserializer
 {
-    public class JsonDeserializer : IDeserializer
+    public IEnumerable<VideoGame> DeserializeGames(string json)
     {
-        public IEnumerable<VideoGame> DeserializeGames(string json)
-        {
 
-            return JsonSerializer.Deserialize<List<VideoGame>>(json);
+        return JsonSerializer.Deserialize<List<VideoGame>>(json);
 
-        }
     }
 }
